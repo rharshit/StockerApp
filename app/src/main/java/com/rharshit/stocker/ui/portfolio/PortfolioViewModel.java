@@ -1,16 +1,16 @@
-package com.rharshit.stocker.ui.home;
+package com.rharshit.stocker.ui.portfolio;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class HomeViewModel extends ViewModel {
+public class PortfolioViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+    private final MutableLiveData<String> mText;
 
-    public HomeViewModel() {
+    public PortfolioViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        mText.setValue("This is portfolio fragment");
     }
 
     public LiveData<String> getText() {
