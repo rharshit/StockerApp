@@ -30,4 +30,9 @@ public class DashboardFragment extends BaseFragment<DashboardViewModel> {
             }
         });
     }
+
+    @Override
+    public BaseFragment<DashboardViewModel> getFragment() {
+        return this;
+    }
 }

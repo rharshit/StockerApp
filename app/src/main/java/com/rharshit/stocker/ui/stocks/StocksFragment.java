@@ -1,14 +1,17 @@
 package com.rharshit.stocker.ui.stocks;
 
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.rharshit.stocker.R;
 import com.rharshit.stocker.base.ui.BaseFragment;
+import com.rharshit.stocker.base.widgets.IncludeFloatingActionButton;
 
-public class StocksFragment extends BaseFragment<StocksViewModel> {
+public class StocksFragment extends BaseFragment<StocksViewModel> implements IncludeFloatingActionButton {
 
     @Override
     public int getLayoutResource() {
@@ -29,5 +32,26 @@ public class StocksFragment extends BaseFragment<StocksViewModel> {
                 textView.setText(s);
             }
         });
+    }
+
+    @Override
+    public BaseFragment<StocksViewModel> getFragment() {
+        return this;
+    }
+
+    @Override
+    public boolean isFabRequired() {
+        return true;
+    }
+
+    @Override
+    public void onFabClickListener(View v) {
+        Snackbar.make(getView(), "Add stocks", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
+    }
+
+    @Override
+    public boolean onFabLongClickListener(View v) {
+        return false;
     }
 }

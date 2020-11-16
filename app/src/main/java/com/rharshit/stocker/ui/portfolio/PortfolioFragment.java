@@ -1,14 +1,17 @@
 package com.rharshit.stocker.ui.portfolio;
 
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.rharshit.stocker.R;
 import com.rharshit.stocker.base.ui.BaseFragment;
+import com.rharshit.stocker.base.widgets.IncludeExtendedFloatingActionButton;
 
-public class PortfolioFragment extends BaseFragment<PortfolioViewModel> {
+public class PortfolioFragment extends BaseFragment<PortfolioViewModel> implements IncludeExtendedFloatingActionButton {
 
     @Override
     public int getLayoutResource() {
@@ -29,5 +32,26 @@ public class PortfolioFragment extends BaseFragment<PortfolioViewModel> {
                 textView.setText(s);
             }
         });
+    }
+
+    @Override
+    public BaseFragment<PortfolioViewModel> getFragment() {
+        return this;
+    }
+
+    @Override
+    public boolean isExtendedFabRequired() {
+        return true;
+    }
+
+    @Override
+    public void onExtendedFabClickListener(View v) {
+        Snackbar.make(getView(), "Add portfolio", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
+    }
+
+    @Override
+    public boolean onExtendedFabLongClickListener(View v) {
+        return false;
     }
 }
