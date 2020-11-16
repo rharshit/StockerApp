@@ -2,9 +2,10 @@ package com.rharshit.stocker.ui.stocks;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-public class StocksViewModel extends ViewModel {
+import com.rharshit.stocker.base.BaseViewModel;
+
+public class StocksViewModel extends BaseViewModel {
 
     private final MutableLiveData<String> mText;
 
