@@ -6,7 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 
 import com.rharshit.stocker.R;
-import com.rharshit.stocker.base.BaseFragment;
+import com.rharshit.stocker.base.ui.BaseFragment;
 
 public class DashboardFragment extends BaseFragment<DashboardViewModel> {
 

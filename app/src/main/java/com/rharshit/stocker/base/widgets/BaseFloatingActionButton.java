@@ -1,4 +1,4 @@
-package com.rharshit.stocker.base;
+package com.rharshit.stocker.base.widgets;
 
 import android.content.Context;
 import android.util.AttributeSet;

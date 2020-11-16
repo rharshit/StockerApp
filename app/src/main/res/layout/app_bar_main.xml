@@ -6,23 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.rharshit.stocker.base.BaseAppBarLayout
+    <com.rharshit.stocker.base.widgets.BaseAppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/Theme.Stocker.AppBarOverlay">
 
-        <com.rharshit.stocker.base.BaseToolbar
+        <com.rharshit.stocker.base.widgets.BaseToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/Theme.Stocker.PopupOverlay" />
 
-    </com.rharshit.stocker.base.BaseAppBarLayout>
+    </com.rharshit.stocker.base.widgets.BaseAppBarLayout>
 
     <include layout="@layout/content_main" />
 
-    <com.rharshit.stocker.base.BaseExtendedFloatingActionButton
+    <com.rharshit.stocker.base.widgets.BaseExtendedFloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

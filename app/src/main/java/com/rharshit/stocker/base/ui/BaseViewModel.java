@@ -1,4 +1,4 @@
-package com.rharshit.stocker.base;
+package com.rharshit.stocker.base.ui;
 
 import androidx.lifecycle.ViewModel;
 

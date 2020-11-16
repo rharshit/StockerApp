@@ -1,4 +1,4 @@
-package com.rharshit.stocker.base;
+package com.rharshit.stocker.base.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

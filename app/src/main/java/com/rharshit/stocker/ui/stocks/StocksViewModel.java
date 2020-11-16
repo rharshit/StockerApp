@@ -3,7 +3,7 @@ package com.rharshit.stocker.ui.stocks;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.rharshit.stocker.base.BaseViewModel;
+import com.rharshit.stocker.base.ui.BaseViewModel;
 
 public class StocksViewModel extends BaseViewModel {
 

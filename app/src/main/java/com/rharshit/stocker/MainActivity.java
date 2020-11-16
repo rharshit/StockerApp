@@ -13,8 +13,8 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-import com.rharshit.stocker.base.BaseExtendedFloatingActionButton;
-import com.rharshit.stocker.base.BaseToolbar;
+import com.rharshit.stocker.base.widgets.BaseExtendedFloatingActionButton;
+import com.rharshit.stocker.base.widgets.BaseToolbar;
 
 public class MainActivity extends AppCompatActivity {
 
