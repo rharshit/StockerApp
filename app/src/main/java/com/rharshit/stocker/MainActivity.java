@@ -3,7 +3,6 @@ package com.rharshit.stocker;
 import android.os.Bundle;
 import android.view.Menu;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -11,9 +10,10 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.rharshit.stocker.base.ui.BaseAppCompatActivity;
 import com.rharshit.stocker.base.widgets.BaseToolbar;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseAppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
