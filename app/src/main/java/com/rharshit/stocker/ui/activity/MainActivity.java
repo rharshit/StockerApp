@@ -1,4 +1,4 @@
-package com.rharshit.stocker;
+package com.rharshit.stocker.ui.activity;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,6 +10,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.rharshit.stocker.R;
 import com.rharshit.stocker.base.ui.BaseAppCompatActivity;
 import com.rharshit.stocker.base.widgets.BaseToolbar;
 
