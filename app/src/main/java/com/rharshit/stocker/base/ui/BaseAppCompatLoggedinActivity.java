@@ -14,16 +14,22 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.rharshit.stocker.data.Portfolio;
 import com.rharshit.stocker.data.User;
 import com.rharshit.stocker.ui.activity.LoginActivity;
 
-import static com.rharshit.stocker.constant.Constants.THRESHOLD_TRIES;
-import static com.rharshit.stocker.constant.DBConstants.USERS;
+import static com.rharshit.stocker.constant.DBConstants.REF_APP;
+import static com.rharshit.stocker.constant.DBConstants.REF_USERS;
+import static com.rharshit.stocker.constant.DBConstants.REF_USER_DATA;
 import static com.rharshit.stocker.constant.IntentConstants.GOOGLE_SIGNOUT;
 
 public class BaseAppCompatLoggedinActivity extends BaseAppCompatActivity {
 
     private User user;
+    private Portfolio portfolio;
+
+    private DatabaseReference userDatabaseReference;
+    private DatabaseReference portfolioDatabaseReference;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
 
@@ -32,7 +38,55 @@ public class BaseAppCompatLoggedinActivity extends BaseAppCompatActivity {
         super.onCreate(savedInstanceState);
 
         initFirebase();
-        checkUserExists(user);
+        initDatabases();
+//        checkUserExists(user);
+//        checkPortfolioExists(user);
+    }
+
+    private void initDatabases() {
+        userDatabaseReference = getDatabase(REF_APP).child(REF_USERS).child(user.getUserUid());
+        portfolioDatabaseReference = getDatabase(REF_APP).child(REF_USER_DATA).child(user.getUserUid());
+
+        ValueEventListener userValueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean exists = snapshot.exists();
+
+                if (exists) {
+                    User userFb = snapshot.getValue(User.class);
+                    setUser(userFb);
+                } else {
+                    createUser(user);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Cancelled fetching user details", Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        ValueEventListener portfolioValueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean exists = snapshot.exists();
+
+                if (exists) {
+                    Portfolio portfolioFb = snapshot.getValue(Portfolio.class);
+                    setPortfolio(portfolioFb);
+                } else {
+                    createPortfolioForuser(user);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Cancelled fetching user portfolio", Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        userDatabaseReference.addValueEventListener(userValueEventListener);
+        portfolioDatabaseReference.addValueEventListener(portfolioValueEventListener);
     }
 
     private void initFirebase() {
@@ -48,40 +102,80 @@ public class BaseAppCompatLoggedinActivity extends BaseAppCompatActivity {
                     getFirebaseUser().getUid());
         }
     }
-
-    private void checkUserExists(User user) {
-        checkUserExists(user, 1);
-    }
-
-    private void checkUserExists(User user, int tries) {
-        if (tries > THRESHOLD_TRIES) {
-            return;
-        }
-        getDatabase(USERS)
-                .child(user.getUserUid())
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        boolean exists = snapshot.exists();
-
-                        if (exists) {
-                            User userFb = snapshot.getValue(User.class);
-                            setUser(userFb);
-                        } else {
-                            createUser(user);
-                            checkUserExists(user, tries + 1);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(getContext(), "Cancelled fetching user details", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
+//
+//    private void checkUserExists(User user) {
+//        checkUserExists(user, 1);
+//    }
+//
+//    private void checkUserExists(User user, int tries) {
+//        if (tries > THRESHOLD_TRIES) {
+//            return;
+//        }
+//        userDatabaseReference
+//        getDatabase(REF_APP)
+//                .child(REF_USERS)
+//                .child(user.getUserUid())
+//                .addValueEventListener(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        boolean exists = snapshot.exists();
+//
+//                        if (exists) {
+//                            User userFb = snapshot.getValue(User.class);
+//                            setUser(userFb);
+//                        } else {
+//                            createUser(user);
+//                            checkUserExists(user, tries + 1);
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//                        Toast.makeText(getContext(), "Cancelled fetching user details", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//    }
+//
+//    private void checkPortfolioExists(User user) {
+//        checkPortfolioExists(user, 1);
+//    }
+//
+//    private void checkPortfolioExists(User user, int tries) {
+//        if (tries > THRESHOLD_TRIES) {
+//            return;
+//        }
+//        getDatabase(REF_APP)
+//                .child(REF_USER_DATA)
+//                .child(user.getUserUid())
+//                .addValueEventListener(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        boolean exists = snapshot.exists();
+//
+//                        if (exists) {
+//                            Portfolio portfolioFb = snapshot.getValue(Portfolio.class);
+//                            setPortfolio(portfolioFb);
+//                        } else {
+//                            createPortfolioForuser(user);
+//                            checkPortfolioExists(user, tries + 1);
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//                        Toast.makeText(getContext(), "Cancelled fetching user portfolio", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//    }
 
     private void createUser(User user) {
-        getDatabase(USERS).child(user.getUserUid()).setValue(user);
+        getDatabase(REF_APP).child(REF_USERS).child(user.getUserUid()).setValue(user);
+    }
+
+    private void createPortfolioForuser(User user) {
+        Portfolio portfolio = new Portfolio();
+        portfolio.getPortfolioStockData().add(new Portfolio.PortfolioStockData("Initialize", 0, 0));
+        getDatabase(REF_APP).child(REF_USER_DATA).child(user.getUserUid()).setValue(portfolio);
     }
 
     public void signout() {
@@ -102,6 +196,14 @@ public class BaseAppCompatLoggedinActivity extends BaseAppCompatActivity {
 
     private void setUser(User user) {
         this.user = user;
+    }
+
+    public Portfolio getPortfolio() {
+        return portfolio;
+    }
+
+    private void setPortfolio(Portfolio portfolio) {
+        this.portfolio = portfolio;
     }
 
     public String getUserName() {
