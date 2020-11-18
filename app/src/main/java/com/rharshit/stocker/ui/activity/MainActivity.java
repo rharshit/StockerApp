@@ -68,7 +68,7 @@ public class MainActivity extends BaseAppCompatLoggedinActivity {
                 .circleCrop();
         Glide.with(getContext())
                 .setDefaultRequestOptions(options)
-                .load(getUser().getPhotoUrl())
+                .load(getFirebaseUser().getPhotoUrl())
                 .into(userIcon);
 
         tvUserName.setText(getUserName());
