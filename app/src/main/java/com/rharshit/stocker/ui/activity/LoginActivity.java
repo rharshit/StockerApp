@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -15,10 +14,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
@@ -58,12 +55,9 @@ public class LoginActivity extends BaseAppCompatActivity {
         boolean googleSignout = intent.getBooleanExtra(GOOGLE_SIGNOUT, false);
         intent.removeExtra(GOOGLE_SIGNOUT);
         if (googleSignout) {
-            googleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    Toast.makeText(getContext(), "Signed out", Toast.LENGTH_SHORT).show();
-                    init();
-                }
+            googleSignInClient.signOut().addOnCompleteListener(task -> {
+                Toast.makeText(getContext(), "Signed out", Toast.LENGTH_SHORT).show();
+                init();
             });
         }
     }
@@ -103,16 +97,13 @@ public class LoginActivity extends BaseAppCompatActivity {
 
                     Toast.makeText(getContext(), "Signing in", Toast.LENGTH_SHORT).show();
 
-                    firebaseAuth.signInWithCredential(authCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(getContext(), "Sign in successful", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(getContext(), "Sign in failed", Toast.LENGTH_SHORT).show();
-                            }
-                            init();
+                    firebaseAuth.signInWithCredential(authCredential).addOnCompleteListener(task1 -> {
+                        if (task1.isSuccessful()) {
+                            Toast.makeText(getContext(), "Sign in successful", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), "Sign in failed", Toast.LENGTH_SHORT).show();
                         }
+                        init();
                     });
                 } catch (ApiException e) {
                     Log.e(TAG, "onActivityResult: Error while Signing in to google", e);

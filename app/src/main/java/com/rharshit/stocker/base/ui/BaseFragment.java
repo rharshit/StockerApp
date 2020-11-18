@@ -83,7 +83,7 @@ public abstract class BaseFragment<V extends BaseViewModel> extends Fragment {
         } catch (IllegalStateException e) {
             bind((View) view.getParent());
         } catch (Exception e) {
-            return;
+            Log.e(TAG, "bind: ", e);
         }
     }
 

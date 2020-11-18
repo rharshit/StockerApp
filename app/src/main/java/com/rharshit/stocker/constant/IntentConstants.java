@@ -1,6 +1,6 @@
 package com.rharshit.stocker.constant;
 
-public class IntentConstants {
+public abstract class IntentConstants {
     /**
      * Request codes
      */
