@@ -10,6 +10,4 @@
     <string name="menu_dashboard">Dashboard</string>
     <string name="menu_stocks">Stocks</string>
     <string name="menu_portfolio">Portfolio</string>
-
-    <string name="label_login">Login</string>
 </resources>

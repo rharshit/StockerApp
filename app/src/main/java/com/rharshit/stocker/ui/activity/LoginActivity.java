@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -14,8 +15,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.rharshit.stocker.R;
 import com.rharshit.stocker.base.ui.BaseAppCompatActivity;
@@ -24,7 +29,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static android.content.ContentValues.TAG;
-import static com.rharshit.stocker.constant.IntentConstants.AUTH_CREDENTIAL;
 import static com.rharshit.stocker.constant.IntentConstants.GOOGLE_SIGN_IN_CODE;
 
 public class LoginActivity extends BaseAppCompatActivity {
@@ -33,6 +37,9 @@ public class LoginActivity extends BaseAppCompatActivity {
     SignInButton googleSignin;
     private GoogleSignInClient googleSignInClient;
 
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +47,17 @@ public class LoginActivity extends BaseAppCompatActivity {
         ButterKnife.bind(this);
 
         googleSignin.setOnClickListener(this::googleSignin);
-        googleSignin(null);
+        initFirebase();
+    }
+
+    private void initFirebase() {
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser != null) {
+            Intent intent = new Intent(getContext(), MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     private void googleSignin(View view) {
@@ -69,10 +86,17 @@ public class LoginActivity extends BaseAppCompatActivity {
 
                     Toast.makeText(getContext(), "Signing in", Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent();
-                    intent.putExtra(AUTH_CREDENTIAL, authCredential);
-                    setResult(RESULT_OK, intent);
-                    finish();
+                    firebaseAuth.signInWithCredential(authCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(getContext(), "Sign in successful", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getContext(), "Sign in failed", Toast.LENGTH_SHORT).show();
+                            }
+                            initFirebase();
+                        }
+                    });
                 } catch (ApiException e) {
                     Log.e(TAG, "onActivityResult: Error while Signing in to google", e);
                     Toast.makeText(getContext(), "Sign in failed", Toast.LENGTH_SHORT).show();

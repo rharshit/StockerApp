@@ -7,7 +7,7 @@ import androidx.annotation.Nullable;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.rharshit.stocker.ui.activity.AuthActivity;
+import com.rharshit.stocker.ui.activity.LoginActivity;
 
 public class BaseAppCompatLoggedinActivity extends BaseAppCompatActivity {
 
@@ -25,7 +25,7 @@ public class BaseAppCompatLoggedinActivity extends BaseAppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser == null) {
-            Intent intent = new Intent(getContext(), AuthActivity.class);
+            Intent intent = new Intent(getContext(), LoginActivity.class);
             startActivity(intent);
             finish();
         }
