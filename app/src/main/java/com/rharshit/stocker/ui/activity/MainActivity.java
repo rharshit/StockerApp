@@ -2,7 +2,9 @@ package com.rharshit.stocker.ui.activity;
 
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -11,10 +13,10 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
 import com.rharshit.stocker.R;
-import com.rharshit.stocker.base.ui.BaseAppCompatActivity;
+import com.rharshit.stocker.base.ui.BaseAppCompatLoggedinActivity;
 import com.rharshit.stocker.base.widgets.BaseToolbar;
 
-public class MainActivity extends BaseAppCompatActivity {
+public class MainActivity extends BaseAppCompatLoggedinActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -42,6 +44,17 @@ public class MainActivity extends BaseAppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_signout:
+                signout();
+                return true;
+        }
+        return false;
     }
 
     @Override

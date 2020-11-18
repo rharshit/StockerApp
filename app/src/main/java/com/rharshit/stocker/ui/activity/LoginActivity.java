@@ -29,6 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static android.content.ContentValues.TAG;
+import static com.rharshit.stocker.constant.IntentConstants.GOOGLE_SIGNOUT;
 import static com.rharshit.stocker.constant.IntentConstants.GOOGLE_SIGN_IN_CODE;
 
 public class LoginActivity extends BaseAppCompatActivity {
@@ -47,10 +48,34 @@ public class LoginActivity extends BaseAppCompatActivity {
         ButterKnife.bind(this);
 
         googleSignin.setOnClickListener(this::googleSignin);
-        initFirebase();
+        init();
+        performIntentAction();
     }
 
-    private void initFirebase() {
+    private void performIntentAction() {
+        Intent intent = getIntent();
+
+        boolean googleSignout = intent.getBooleanExtra(GOOGLE_SIGNOUT, false);
+        intent.removeExtra(GOOGLE_SIGNOUT);
+        if (googleSignout) {
+            googleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    Toast.makeText(getContext(), "Signed out", Toast.LENGTH_SHORT).show();
+                    init();
+                }
+            });
+        }
+    }
+
+    private void init() {
+        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions
+                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        googleSignInClient = GoogleSignIn.getClient(getContext(), googleSignInOptions);
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser != null) {
@@ -61,14 +86,6 @@ public class LoginActivity extends BaseAppCompatActivity {
     }
 
     private void googleSignin(View view) {
-        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions
-                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-
-        googleSignInClient = GoogleSignIn.getClient(getContext(), googleSignInOptions);
-
         Intent intent = googleSignInClient.getSignInIntent();
         startActivityForResult(intent, GOOGLE_SIGN_IN_CODE);
     }
@@ -94,7 +111,7 @@ public class LoginActivity extends BaseAppCompatActivity {
                             } else {
                                 Toast.makeText(getContext(), "Sign in failed", Toast.LENGTH_SHORT).show();
                             }
-                            initFirebase();
+                            init();
                         }
                     });
                 } catch (ApiException e) {

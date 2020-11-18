@@ -9,6 +9,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.rharshit.stocker.ui.activity.LoginActivity;
 
+import static com.rharshit.stocker.constant.IntentConstants.GOOGLE_SIGNOUT;
+
 public class BaseAppCompatLoggedinActivity extends BaseAppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
@@ -29,5 +31,13 @@ public class BaseAppCompatLoggedinActivity extends BaseAppCompatActivity {
             startActivity(intent);
             finish();
         }
+    }
+
+    public void signout() {
+        firebaseAuth.signOut();
+        Intent intent = new Intent(getContext(), LoginActivity.class);
+        intent.putExtra(GOOGLE_SIGNOUT, true);
+        startActivity(intent);
+        finish();
     }
 }
