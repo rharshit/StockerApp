@@ -40,4 +40,16 @@ public class BaseAppCompatLoggedinActivity extends BaseAppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+    public FirebaseUser getUser() {
+        return firebaseUser;
+    }
+
+    public String getUserName() {
+        return getUser().getDisplayName();
+    }
+
+    public String getUserEmail() {
+        return getUser().getEmail();
+    }
 }
