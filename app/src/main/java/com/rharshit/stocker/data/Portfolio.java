@@ -27,6 +27,9 @@ public class Portfolio {
         private int totalUnits;
         private long totalValue;
 
+        public PortfolioStockData() {
+        }
+
         public PortfolioStockData(String stockSymbol, int totalUnits, long totalValue) {
             this.stockSymbol = stockSymbol;
             this.totalUnits = totalUnits;
