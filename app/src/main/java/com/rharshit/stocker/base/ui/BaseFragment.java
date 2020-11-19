@@ -114,6 +114,18 @@ public abstract class BaseFragment<V extends BaseViewModel> extends Fragment {
         return view;
     }
 
+    public void addLoading(String s) {
+        getBaseActivity().addLoading(s);
+    }
+
+    public void removeLoading(String s) {
+        getBaseActivity().removeLoading(s);
+    }
+
+    private BaseAppCompatActivity getBaseActivity() {
+        return getViewModel().getActivity();
+    }
+
     public abstract @LayoutRes
     int getLayoutResource();
 

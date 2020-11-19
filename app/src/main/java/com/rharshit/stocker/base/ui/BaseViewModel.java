@@ -19,6 +19,10 @@ public class BaseViewModel extends ViewModel {
         nonBlockedUiTasks = new MutableLiveData<>(new HashMap<>());
     }
 
+    public BaseAppCompatActivity getActivity() {
+        return activity;
+    }
+
     public void setActivity(BaseAppCompatActivity activity) {
         this.activity = activity;
     }
