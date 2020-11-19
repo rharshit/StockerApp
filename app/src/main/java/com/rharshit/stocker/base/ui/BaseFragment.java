@@ -35,6 +35,7 @@ public abstract class BaseFragment<V extends BaseViewModel> extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         viewModel =
                 new ViewModelProvider(this).get(getViewModelClass());
+        viewModel.setActivity((BaseAppCompatActivity) this.getActivity());
         view = inflater.inflate(getLayoutResource(), container, false);
         return view;
     }
@@ -88,8 +89,6 @@ public abstract class BaseFragment<V extends BaseViewModel> extends Fragment {
     }
 
     private void addObservables() {
-        Log.d(TAG, "addObservables: " + extendedFab);
-        Log.d(TAG, "addObservables: " + fab);
         if (extendedFab != null) {
             extendedFab.setVisibility(isExtendedFabRequired() ? View.VISIBLE : View.GONE);
         }

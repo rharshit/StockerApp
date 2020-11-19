@@ -89,6 +89,8 @@ public class LoginActivity extends BaseAppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case GOOGLE_SIGN_IN_CODE:
+                String loadingText = "Signing in";
+                addLoading(loadingText);
                 Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
                 try {
                     GoogleSignInAccount account = task.getResult(ApiException.class);
@@ -96,12 +98,14 @@ public class LoginActivity extends BaseAppCompatActivity {
                             .getCredential(account.getIdToken(), null);
 
                     firebaseAuth.signInWithCredential(authCredential).addOnCompleteListener(task1 -> {
+                        removeLoading(loadingText);
                         if (!task1.isSuccessful()) {
                             Toast.makeText(getContext(), "Sign in failed", Toast.LENGTH_SHORT).show();
                         }
                         init();
                     });
                 } catch (ApiException e) {
+                    removeLoading(loadingText);
                     Log.e(TAG, "onActivityResult: Error while Signing in to google", e);
                     Toast.makeText(getContext(), "Sign in failed", Toast.LENGTH_SHORT).show();
                 }
