@@ -62,7 +62,7 @@ public class BaseAppCompatLoggedinActivity extends BaseAppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), "Cancelled fetching user details", Toast.LENGTH_SHORT).show();
+                makeToast("Cancelled fetching user details", Toast.LENGTH_SHORT);
             }
         };
 
@@ -81,7 +81,7 @@ public class BaseAppCompatLoggedinActivity extends BaseAppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), "Cancelled fetching user portfolio", Toast.LENGTH_SHORT).show();
+                makeToast("Cancelled fetching user portfolio", Toast.LENGTH_SHORT);
             }
         };
 

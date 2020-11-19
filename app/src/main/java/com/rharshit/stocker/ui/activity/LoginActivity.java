@@ -56,7 +56,7 @@ public class LoginActivity extends BaseAppCompatActivity {
         intent.removeExtra(GOOGLE_SIGNOUT);
         if (googleSignout) {
             googleSignInClient.signOut().addOnCompleteListener(task -> {
-                Toast.makeText(getContext(), "Signed out", Toast.LENGTH_SHORT).show();
+                makeToast("Signed out", Toast.LENGTH_SHORT);
                 init();
             });
         }
@@ -95,12 +95,8 @@ public class LoginActivity extends BaseAppCompatActivity {
                     AuthCredential authCredential = GoogleAuthProvider
                             .getCredential(account.getIdToken(), null);
 
-                    Toast.makeText(getContext(), "Signing in", Toast.LENGTH_SHORT).show();
-
                     firebaseAuth.signInWithCredential(authCredential).addOnCompleteListener(task1 -> {
-                        if (task1.isSuccessful()) {
-                            Toast.makeText(getContext(), "Sign in successful", Toast.LENGTH_SHORT).show();
-                        } else {
+                        if (!task1.isSuccessful()) {
                             Toast.makeText(getContext(), "Sign in failed", Toast.LENGTH_SHORT).show();
                         }
                         init();
