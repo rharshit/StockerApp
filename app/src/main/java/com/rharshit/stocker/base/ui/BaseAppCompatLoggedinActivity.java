@@ -39,8 +39,6 @@ public class BaseAppCompatLoggedinActivity extends BaseAppCompatActivity {
 
         initFirebase();
         initDatabases();
-//        checkUserExists(user);
-//        checkPortfolioExists(user);
     }
 
     private void initDatabases() {
@@ -102,71 +100,6 @@ public class BaseAppCompatLoggedinActivity extends BaseAppCompatActivity {
                     getFirebaseUser().getUid());
         }
     }
-//
-//    private void checkUserExists(User user) {
-//        checkUserExists(user, 1);
-//    }
-//
-//    private void checkUserExists(User user, int tries) {
-//        if (tries > THRESHOLD_TRIES) {
-//            return;
-//        }
-//        userDatabaseReference
-//        getDatabase(REF_APP)
-//                .child(REF_USERS)
-//                .child(user.getUserUid())
-//                .addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        boolean exists = snapshot.exists();
-//
-//                        if (exists) {
-//                            User userFb = snapshot.getValue(User.class);
-//                            setUser(userFb);
-//                        } else {
-//                            createUser(user);
-//                            checkUserExists(user, tries + 1);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//                        Toast.makeText(getContext(), "Cancelled fetching user details", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//    }
-//
-//    private void checkPortfolioExists(User user) {
-//        checkPortfolioExists(user, 1);
-//    }
-//
-//    private void checkPortfolioExists(User user, int tries) {
-//        if (tries > THRESHOLD_TRIES) {
-//            return;
-//        }
-//        getDatabase(REF_APP)
-//                .child(REF_USER_DATA)
-//                .child(user.getUserUid())
-//                .addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        boolean exists = snapshot.exists();
-//
-//                        if (exists) {
-//                            Portfolio portfolioFb = snapshot.getValue(Portfolio.class);
-//                            setPortfolio(portfolioFb);
-//                        } else {
-//                            createPortfolioForuser(user);
-//                            checkPortfolioExists(user, tries + 1);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//                        Toast.makeText(getContext(), "Cancelled fetching user portfolio", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//    }
 
     private void createUser(User user) {
         getDatabase(REF_APP).child(REF_USERS).child(user.getUserUid()).setValue(user);

@@ -26,10 +26,9 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends BaseAppCompatLoggedinActivity {
 
-    private AppBarConfiguration mAppBarConfiguration;
-
     @BindView(R.id.nav_view)
     BaseNavigationView navigationView;
+    private AppBarConfiguration mAppBarConfiguration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
