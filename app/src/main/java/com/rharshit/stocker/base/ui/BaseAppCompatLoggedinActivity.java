@@ -14,22 +14,18 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.rharshit.stocker.data.Portfolio;
 import com.rharshit.stocker.data.User;
 import com.rharshit.stocker.ui.activity.LoginActivity;
 
 import static com.rharshit.stocker.constant.DBConstants.REF_APP;
 import static com.rharshit.stocker.constant.DBConstants.REF_USERS;
-import static com.rharshit.stocker.constant.DBConstants.REF_USER_DATA;
 import static com.rharshit.stocker.constant.IntentConstants.GOOGLE_SIGNOUT;
 
 public class BaseAppCompatLoggedinActivity extends BaseAppCompatActivity {
 
     private User user;
-    private Portfolio portfolio;
 
     private DatabaseReference userDatabaseReference;
-    private DatabaseReference portfolioDatabaseReference;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
 
@@ -43,7 +39,6 @@ public class BaseAppCompatLoggedinActivity extends BaseAppCompatActivity {
 
     private void initDatabases() {
         userDatabaseReference = getDatabase(REF_APP).child(REF_USERS).child(user.getUserUid());
-        portfolioDatabaseReference = getDatabase(REF_APP).child(REF_USER_DATA).child(user.getUserUid());
 
         ValueEventListener userValueEventListener = new ValueEventListener() {
             @Override
@@ -64,27 +59,7 @@ public class BaseAppCompatLoggedinActivity extends BaseAppCompatActivity {
             }
         };
 
-        ValueEventListener portfolioValueEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                boolean exists = snapshot.exists();
-
-                if (exists) {
-                    Portfolio portfolioFb = snapshot.getValue(Portfolio.class);
-                    setPortfolio(portfolioFb);
-                } else {
-                    createPortfolioForuser(user);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                makeToast("Cancelled fetching user portfolio", Toast.LENGTH_SHORT);
-            }
-        };
-
         userDatabaseReference.addValueEventListener(userValueEventListener);
-        portfolioDatabaseReference.addValueEventListener(portfolioValueEventListener);
     }
 
     private void initFirebase() {
@@ -105,12 +80,6 @@ public class BaseAppCompatLoggedinActivity extends BaseAppCompatActivity {
         getDatabase(REF_APP).child(REF_USERS).child(user.getUserUid()).setValue(user);
     }
 
-    private void createPortfolioForuser(User user) {
-        Portfolio portfolio = new Portfolio();
-        portfolio.getPortfolioStockData().add(new Portfolio.PortfolioStockData("Initialize", 0, 0));
-        getDatabase(REF_APP).child(REF_USER_DATA).child(user.getUserUid()).setValue(portfolio);
-    }
-
     public void signout() {
         firebaseAuth.signOut();
         Intent intent = new Intent(getContext(), LoginActivity.class);
@@ -129,14 +98,6 @@ public class BaseAppCompatLoggedinActivity extends BaseAppCompatActivity {
 
     private void setUser(User user) {
         this.user = user;
-    }
-
-    public Portfolio getPortfolio() {
-        return portfolio;
-    }
-
-    private void setPortfolio(Portfolio portfolio) {
-        this.portfolio = portfolio;
     }
 
     public String getUserName() {
