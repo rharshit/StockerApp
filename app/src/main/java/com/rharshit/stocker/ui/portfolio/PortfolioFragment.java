@@ -38,8 +38,9 @@ public class PortfolioFragment extends BaseFragment<PortfolioViewModel> implemen
 
     @Override
     public void onExtendedFabClickListener(View v) {
-        Snackbar.make(getView(), "Add portfolio", Snackbar.LENGTH_LONG)
+        Snackbar.make(getView(), "Getting a joke for you", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
+        getViewModel().showJoke();
     }
 
     @Override
