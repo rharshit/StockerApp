@@ -1,6 +1,5 @@
 package com.rharshit.stocker.ui.activity;
 
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -30,9 +29,12 @@ public class MainActivity extends BaseAppCompatLoggedinActivity {
     private AppBarConfiguration mAppBarConfiguration;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public int getLayoutResource() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    public void init() {
         ButterKnife.bind(this);
 
         BaseToolbar toolbar = findViewById(R.id.toolbar);
@@ -47,7 +49,6 @@ public class MainActivity extends BaseAppCompatLoggedinActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
     }
 
     @Override

@@ -6,13 +6,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class BaseAppCompatActivity extends AppCompatActivity {
+public abstract class BaseAppCompatActivity extends AppCompatActivity {
 
     private final String TAG = this.getClass().getName();
     private Context context;
@@ -22,6 +23,7 @@ public class BaseAppCompatActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(getLayoutResource());
 
         this.context = this;
         tasksInProgress = new HashMap<>();
@@ -29,6 +31,8 @@ public class BaseAppCompatActivity extends AppCompatActivity {
         progressDialog.setTitle("Please wait");
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
+
+        init();
     }
 
     @Override
@@ -94,4 +98,9 @@ public class BaseAppCompatActivity extends AppCompatActivity {
         }
         processProgressDialogText();
     }
+
+    public abstract @LayoutRes
+    int getLayoutResource();
+
+    public abstract void init();
 }

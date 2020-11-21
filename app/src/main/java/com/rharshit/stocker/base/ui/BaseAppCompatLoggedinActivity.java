@@ -21,7 +21,7 @@ import static com.rharshit.stocker.constant.DBConstants.REF_APP;
 import static com.rharshit.stocker.constant.DBConstants.REF_USERS;
 import static com.rharshit.stocker.constant.IntentConstants.GOOGLE_SIGNOUT;
 
-public class BaseAppCompatLoggedinActivity extends BaseAppCompatActivity {
+public abstract class BaseAppCompatLoggedinActivity extends BaseAppCompatActivity {
 
     private User user;
 
@@ -36,6 +36,9 @@ public class BaseAppCompatLoggedinActivity extends BaseAppCompatActivity {
         initFirebase();
         initDatabases();
     }
+
+    @Override
+    public abstract void init();
 
     private void initDatabases() {
         userDatabaseReference = getDatabase(REF_APP).child(REF_USERS).child(user.getUserUid());

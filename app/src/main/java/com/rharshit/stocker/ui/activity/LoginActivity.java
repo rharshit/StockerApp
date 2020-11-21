@@ -1,7 +1,6 @@
 package com.rharshit.stocker.ui.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -44,19 +43,6 @@ public class LoginActivity extends BaseAppCompatActivity {
 
     private ChuckNorrisService chuckNorrisService;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
-
-        showJoke();
-
-        googleSignin.setOnClickListener(this::googleSignin);
-        init();
-        performIntentAction();
-    }
-
     private void performIntentAction() {
         Intent intent = getIntent();
 
@@ -70,7 +56,18 @@ public class LoginActivity extends BaseAppCompatActivity {
         }
     }
 
-    private void init() {
+    @Override
+    public int getLayoutResource() {
+        return R.layout.activity_login;
+    }
+
+    @Override
+    public void init() {
+        ButterKnife.bind(this);
+
+        showJoke();
+
+        googleSignin.setOnClickListener(this::googleSignin);
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -85,6 +82,8 @@ public class LoginActivity extends BaseAppCompatActivity {
             startActivity(intent);
             finish();
         }
+
+        performIntentAction();
     }
 
     private void showJoke() {
