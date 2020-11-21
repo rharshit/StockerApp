@@ -20,12 +20,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.rharshit.stocker.R;
+import com.rharshit.stocker.base.rx.BaseAsyncTask;
 import com.rharshit.stocker.base.ui.BaseAppCompatActivity;
+import com.rharshit.stocker.data.Joke;
+import com.rharshit.stocker.service.ChuckNorrisService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static android.content.ContentValues.TAG;
+import static com.rharshit.stocker.constant.APIConstants.BASE_URL_CHUCK;
 import static com.rharshit.stocker.constant.IntentConstants.GOOGLE_SIGNOUT;
 import static com.rharshit.stocker.constant.IntentConstants.GOOGLE_SIGN_IN_CODE;
 
@@ -38,11 +42,15 @@ public class LoginActivity extends BaseAppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
 
+    private ChuckNorrisService chuckNorrisService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+
+        showJoke();
 
         googleSignin.setOnClickListener(this::googleSignin);
         init();
@@ -77,6 +85,16 @@ public class LoginActivity extends BaseAppCompatActivity {
             startActivity(intent);
             finish();
         }
+    }
+
+    private void showJoke() {
+        chuckNorrisService = new ChuckNorrisService(this, BASE_URL_CHUCK);
+        BaseAsyncTask<Void, Void, Joke> joke = chuckNorrisService.getJokeTask(this::displayJoke);
+        joke.execute();
+    }
+
+    private void displayJoke(Joke joke) {
+        makeToast(joke.value, Toast.LENGTH_LONG);
     }
 
     private void googleSignin(View view) {

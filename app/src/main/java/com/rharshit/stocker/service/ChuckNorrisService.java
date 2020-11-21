@@ -2,6 +2,7 @@ package com.rharshit.stocker.service;
 
 import com.rharshit.stocker.base.rx.BaseAsyncTask;
 import com.rharshit.stocker.base.rx.BaseService;
+import com.rharshit.stocker.base.ui.BaseAppCompatActivity;
 import com.rharshit.stocker.data.Joke;
 import com.rharshit.stocker.service.client.ChuckNorrisClient;
 import com.rharshit.stocker.ui.portfolio.PortfolioViewModel;
@@ -9,8 +10,13 @@ import com.rharshit.stocker.ui.portfolio.PortfolioViewModel;
 import retrofit2.Call;
 
 public class ChuckNorrisService extends BaseService<PortfolioViewModel, ChuckNorrisClient> {
+
     public ChuckNorrisService(PortfolioViewModel viewModel, String baseUrl) {
         super(viewModel, baseUrl);
+    }
+
+    public ChuckNorrisService(BaseAppCompatActivity activity, String baseUrl) {
+        super(activity, baseUrl);
     }
 
     @Override

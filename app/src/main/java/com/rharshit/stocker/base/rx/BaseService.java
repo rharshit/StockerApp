@@ -17,6 +17,7 @@ import static android.content.ContentValues.TAG;
 
 public abstract class BaseService<V extends BaseViewModel, C extends BaseClient> {
 
+    private final BaseAppCompatActivity activity;
     private final V viewModel;
     private final String baseUrl;
 
@@ -26,9 +27,16 @@ public abstract class BaseService<V extends BaseViewModel, C extends BaseClient>
 
     public BaseService(V viewModel, String baseUrl) {
         this.viewModel = viewModel;
+        this.activity = null;
         this.baseUrl = baseUrl;
         initRetrofit();
+    }
 
+    public BaseService(BaseAppCompatActivity activity, String baseUrl) {
+        this.viewModel = null;
+        this.activity = activity;
+        this.baseUrl = baseUrl;
+        initRetrofit();
     }
 
     private void initRetrofit() {
@@ -87,7 +95,11 @@ public abstract class BaseService<V extends BaseViewModel, C extends BaseClient>
     }
 
     private BaseAppCompatActivity getActivity() {
-        return getViewModel().getActivity();
+        if (getViewModel() != null) {
+            return getViewModel().getActivity();
+        } else {
+            return this.activity;
+        }
     }
 
     public V getViewModel() {
