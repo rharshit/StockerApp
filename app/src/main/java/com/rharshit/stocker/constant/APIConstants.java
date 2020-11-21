@@ -2,6 +2,10 @@ package com.rharshit.stocker.constant;
 
 public abstract class APIConstants {
 
+    private APIConstants() {
+        throw new IllegalStateException();
+    }
+
     /**
      * Base URLs
      */

@@ -1,6 +1,11 @@
 package com.rharshit.stocker.constant;
 
 public abstract class IntentConstants {
+
+    private IntentConstants() {
+        throw new IllegalStateException();
+    }
+
     /**
      * Request codes
      */

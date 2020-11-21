@@ -8,7 +8,6 @@ import com.rharshit.stocker.base.ui.BaseViewModel;
 
 import java.io.IOException;
 
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -21,8 +20,6 @@ public abstract class BaseService<V extends BaseViewModel, C extends BaseClient>
     private final V viewModel;
     private final String baseUrl;
 
-    private Retrofit retrofit;
-    private OkHttpClient.Builder httpClient;
     private C client;
 
     public BaseService(V viewModel, String baseUrl) {
@@ -40,14 +37,10 @@ public abstract class BaseService<V extends BaseViewModel, C extends BaseClient>
     }
 
     private void initRetrofit() {
-        Retrofit.Builder builder =
+        Retrofit retrofit =
                 new Retrofit.Builder()
                         .baseUrl(this.baseUrl)
-                        .addConverterFactory(GsonConverterFactory.create());
-
-        retrofit = builder.build();
-
-        httpClient = new OkHttpClient.Builder();
+                        .addConverterFactory(GsonConverterFactory.create()).build();
 
         this.client = retrofit.create(getServiceClass());
     }

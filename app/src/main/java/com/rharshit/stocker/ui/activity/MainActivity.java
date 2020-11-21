@@ -15,7 +15,6 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.android.material.navigation.NavigationView;
 import com.rharshit.stocker.R;
 import com.rharshit.stocker.base.ui.BaseAppCompatLoggedinActivity;
 import com.rharshit.stocker.base.ui.BaseNavigationView;
@@ -34,10 +33,11 @@ public class MainActivity extends BaseAppCompatLoggedinActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+
         BaseToolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -48,7 +48,6 @@ public class MainActivity extends BaseAppCompatLoggedinActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        ButterKnife.bind(this);
     }
 
     @Override

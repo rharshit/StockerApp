@@ -110,7 +110,8 @@ public abstract class BaseFragment<V extends BaseViewModel> extends Fragment {
     }
 
     @Override
-    public View getView() {
+    public @NonNull
+    View getView() {
         return view;
     }
 

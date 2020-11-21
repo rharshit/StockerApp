@@ -1,6 +1,11 @@
 package com.rharshit.stocker.constant;
 
 public abstract class DBConstants {
+
+    private DBConstants() {
+        throw new IllegalStateException();
+    }
+
     /**
      * Application wide
      */
