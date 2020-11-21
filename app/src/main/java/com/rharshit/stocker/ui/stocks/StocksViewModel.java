@@ -14,6 +14,11 @@ public class StocksViewModel extends BaseViewModel {
         mText.setValue("This is stocks fragment");
     }
 
+    @Override
+    public void initService() {
+
+    }
+
     public LiveData<String> getText() {
         return mText;
     }
