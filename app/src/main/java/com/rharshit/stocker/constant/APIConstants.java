@@ -1,5 +1,7 @@
 package com.rharshit.stocker.constant;
 
+import com.rharshit.stocker.BuildConfig;
+
 public abstract class APIConstants {
 
     private APIConstants() {
@@ -16,4 +18,11 @@ public abstract class APIConstants {
      */
 
     public static final String GET_CHUCK_NORRIS_JOKES = "/jokes/random";
+
+    /**
+     * Kays
+     */
+    public static final String ZERODHA_API_KEY = BuildConfig.ZERODHA_API_KEY;
+    public static final String ZERODHA_API_SECRET = BuildConfig.ZERODHA_API_SECRET;
+    public static final String ZERODHA_USER_ID = BuildConfig.ZERODHA_USER_ID;
 }
