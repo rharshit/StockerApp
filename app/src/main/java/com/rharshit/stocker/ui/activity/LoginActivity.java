@@ -22,7 +22,7 @@ import com.rharshit.stocker.R;
 import com.rharshit.stocker.base.rx.BaseAsyncTask;
 import com.rharshit.stocker.base.ui.BaseAppCompatActivity;
 import com.rharshit.stocker.data.Joke;
-import com.rharshit.stocker.service.ChuckNorrisService;
+import com.rharshit.stocker.service.ChuckNorrisRestService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,7 +41,7 @@ public class LoginActivity extends BaseAppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
 
-    private ChuckNorrisService chuckNorrisService;
+    private ChuckNorrisRestService chuckNorrisService;
 
     private void performIntentAction() {
         Intent intent = getIntent();
@@ -87,7 +87,7 @@ public class LoginActivity extends BaseAppCompatActivity {
     }
 
     private void showJoke() {
-        chuckNorrisService = new ChuckNorrisService(this, BASE_URL_CHUCK);
+        chuckNorrisService = new ChuckNorrisRestService(this, BASE_URL_CHUCK);
         BaseAsyncTask<Void, Void, Joke> joke = chuckNorrisService.getJokeTask(this::displayJoke);
         joke.execute();
     }

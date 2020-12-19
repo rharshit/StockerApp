@@ -51,7 +51,7 @@ public abstract class BaseAsyncTask<X, Y, Z> extends AsyncTask<X, Y, Z> {
     @Override
     protected abstract Z doInBackground(X... xes);
 
-    public interface IoTask<Z> {
+    public interface Task<Z> {
         void execute(Z z);
     }
 }
