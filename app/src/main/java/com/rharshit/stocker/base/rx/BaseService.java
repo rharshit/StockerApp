@@ -9,6 +9,7 @@ import com.rharshit.stocker.base.ui.BaseViewModel;
 import java.io.IOException;
 
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -68,10 +69,11 @@ public abstract class BaseService<V extends BaseViewModel, C extends BaseClient>
             @Override
             protected Z doInBackground(Void... voids) {
                 try {
-                    return call.execute().body();
+                    Response<Z> response = call.execute();
+                    return response.body();
                 } catch (IOException e) {
                     Log.e(TAG, "doInBackground: ", e);
-                    return (Z) new BaseData(true);
+                    return (Z) new BaseData(false);
                 }
             }
 
@@ -79,6 +81,11 @@ public abstract class BaseService<V extends BaseViewModel, C extends BaseClient>
             protected void onPostExecute(Z z) {
                 super.onPostExecute(z);
                 try {
+                    if (z instanceof BaseData) {
+                        if (z.getSuccess() == null) {
+                            z.setSuccess(true);
+                        }
+                    }
                     onFinish.execute(z);
                 } catch (Exception e) {
                     Log.e(TAG, "onPostExecute: ", e);
