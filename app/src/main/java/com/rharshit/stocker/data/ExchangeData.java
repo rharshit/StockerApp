@@ -3,6 +3,8 @@ package com.rharshit.stocker.data;
 import com.google.gson.annotations.SerializedName;
 import com.rharshit.stocker.base.data.BaseData;
 
+import org.jetbrains.annotations.NotNull;
+
 public class ExchangeData extends BaseData {
     private String name;
     private String acronym;
@@ -149,6 +151,12 @@ public class ExchangeData extends BaseData {
 
         public void setName(String name) {
             this.name = name;
+        }
+
+        @NotNull
+        @Override
+        public String toString() {
+            return code + "\\" + symbol;
         }
     }
 }

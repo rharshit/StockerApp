@@ -4,10 +4,10 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -31,11 +31,14 @@ public class MainActivity extends BaseAppCompatLoggedinActivity {
     @BindView(R.id.nav_view)
     BaseNavigationView navigationView;
 
-    @BindView(R.id.ll_exchange_main_display)
-    LinearLayout exchangeMainDisplay;
+    @BindView(R.id.cl_exchange_main_display)
+    ConstraintLayout exchangeMainDisplay;
 
     @BindView(R.id.tv_exchange_name_main)
     TextView exchangeName;
+
+    @BindView(R.id.tv_exchange_currency_main)
+    TextView exchangeCurrency;
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -80,6 +83,7 @@ public class MainActivity extends BaseAppCompatLoggedinActivity {
             selectExcahnge();
         } else {
             exchangeName.setText(exchangeData.getName());
+            exchangeCurrency.setText(exchangeData.getCurrency().toString());
             exchangeMainDisplay.setOnClickListener(v -> selectExcahnge());
         }
     }
