@@ -1,5 +1,8 @@
 package com.rharshit.stocker.base.rx;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.rharshit.stocker.base.data.BaseData;
@@ -8,6 +11,10 @@ import com.rharshit.stocker.base.ui.BaseViewModel;
 
 import java.io.IOException;
 
+import okhttp3.Cache;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -22,6 +29,10 @@ public abstract class BaseService<V extends BaseViewModel, C extends BaseClient>
     private final String baseUrl;
 
     private C client;
+    private static Interceptor onlineInterceptor;
+    private static Interceptor offlineInterceptor;
+    private static Cache cache;
+    private C cachedClient;
 
     public BaseService(V viewModel, String baseUrl) {
         this.viewModel = viewModel;
@@ -44,6 +55,60 @@ public abstract class BaseService<V extends BaseViewModel, C extends BaseClient>
                         .addConverterFactory(GsonConverterFactory.create()).build();
 
         this.client = retrofit.create(getServiceClass());
+
+        OkHttpClient cachedOkHttpClient = generateCachedOkhttpClient();
+
+        Retrofit cachedRetrofit =
+                new Retrofit.Builder()
+                        .baseUrl(this.baseUrl)
+                        .client(cachedOkHttpClient)
+                        .addConverterFactory(GsonConverterFactory.create()).build();
+
+        this.cachedClient = cachedRetrofit.create(getServiceClass());
+    }
+
+    private OkHttpClient generateCachedOkhttpClient() {
+        long cacheSize = (5 * 1024 * 1024);
+        if (onlineInterceptor == null) {
+            onlineInterceptor = chain -> {
+                okhttp3.Response response = chain.proceed(chain.request());
+                int maxAge = 60 * 60 * 24;
+                return response.newBuilder()
+                        .header("Cache-Control", "public, max-age=" + maxAge)
+                        .removeHeader("Pragma")
+                        .build();
+            };
+        }
+
+        if (offlineInterceptor == null) {
+            offlineInterceptor = chain -> {
+                Request request = chain.request();
+                if (!isNetworkAvailable(getContext())) {
+                    int maxStale = 60 * 60 * 24 * 7;
+                    request = request.newBuilder()
+                            .header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)
+                            .removeHeader("Pragma")
+                            .build();
+                }
+                return chain.proceed(request);
+            };
+        }
+
+        if (cache == null) {
+            cache = new Cache(getActivity().getCacheDir(), cacheSize);
+        }
+
+        return new OkHttpClient.Builder()
+                .cache(cache)
+                .addInterceptor(offlineInterceptor)
+                .addNetworkInterceptor(onlineInterceptor)
+                .build();
+    }
+
+    private boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     public <Z extends BaseData> BaseAsyncTask<Void, Void, Z>
@@ -106,8 +171,17 @@ public abstract class BaseService<V extends BaseViewModel, C extends BaseClient>
         return viewModel;
     }
 
+    public Context getContext() {
+        return getActivity();
+    }
+
+
     public C getClient() {
         return client;
+    }
+
+    public C getCachedClient() {
+        return cachedClient;
     }
 
     public abstract Class<C> getServiceClass();

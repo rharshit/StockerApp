@@ -24,7 +24,7 @@ public class MarketStackService extends BaseService<BaseViewModel, MarketStackCl
     }
 
     public BaseAsyncTask<Void, Void, BaseMarketstackData<ExchangeData>> getExcahnges(BaseAsyncTask.IoTask<BaseMarketstackData<ExchangeData>> onFinish) {
-        Call<BaseMarketstackData<ExchangeData>> exchangeCall = getClient().getExchanges(MARKETSTACK_API_KEY, 1000);
+        Call<BaseMarketstackData<ExchangeData>> exchangeCall = getCachedClient().getExchanges(MARKETSTACK_API_KEY, 1000);
         return createForegroundIoTask("Fetching excahnges", exchangeCall, onFinish);
     }
 }
