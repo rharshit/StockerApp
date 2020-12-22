@@ -41,6 +41,7 @@ android {
 
 def butterKnifeVersion = '10.2.3'
 def retrofitVersion = '2.9.0'
+def WorldCountryDataVersion = '1.5'
 
 dependencies {
 
@@ -84,4 +85,7 @@ dependencies {
     // okhttp
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
     implementation 'com.squareup.okhttp3:okhttp:3.14.9'
+
+    // World Country Data
+    implementation "com.github.blongho:worldCountryData:$WorldCountryDataVersion"
 }

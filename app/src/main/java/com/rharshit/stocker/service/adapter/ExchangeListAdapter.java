@@ -5,10 +5,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.blongho.country_data.World;
 import com.rharshit.stocker.R;
 import com.rharshit.stocker.StockerApplication;
 import com.rharshit.stocker.base.ui.BaseAppCompatLoggedinActivity;
@@ -31,6 +33,7 @@ public class ExchangeListAdapter extends BaseAdapter<ExchangeListAdapter.Exchang
     public ExchangeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_exchange_list, parent, false);
+        World.init(parent.getContext().getApplicationContext());
         return new ExchangeViewHolder(view);
     }
 
@@ -44,6 +47,7 @@ public class ExchangeListAdapter extends BaseAdapter<ExchangeListAdapter.Exchang
             ((TextView) holder.itemView.findViewById(R.id.tv_exchange_website)).setText(data.getWebsite());
             ((TextView) holder.itemView.findViewById(R.id.tv_exchange_currency)).setText(data.getCurrency().toString());
             ((TextView) holder.itemView.findViewById(R.id.tv_exchange_timezone)).setText(data.getTimezone().getTimezone());
+            ((ImageView) holder.itemView.findViewById(R.id.iv_exchange_country_flag)).setImageResource(getWorldFlagId(data));
         } catch (Exception e) {
             Log.e(TAG, "onBindViewHolder: ", e);
         }
@@ -53,6 +57,15 @@ public class ExchangeListAdapter extends BaseAdapter<ExchangeListAdapter.Exchang
             ((StockerApplication) getContext().getApplicationContext()).setExchangeData(data);
             ((BaseAppCompatLoggedinActivity) getContext()).finish();
         });
+    }
+
+    private int getWorldFlagId(ExchangeData data) {
+        int id;
+        id = World.getFlagOf(data.getCountry());
+        if (id == 2131165401) {
+            id = World.getFlagOf(data.getCountryCode());
+        }
+        return id;
     }
 
     private String getDisplayAcronym(ExchangeData data) {
