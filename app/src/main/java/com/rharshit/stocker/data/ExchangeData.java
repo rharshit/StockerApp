@@ -156,7 +156,7 @@ public class ExchangeData extends BaseData {
         @NotNull
         @Override
         public String toString() {
-            return code + "\\" + symbol;
+            return code + "/" + symbol;
         }
     }
 }
