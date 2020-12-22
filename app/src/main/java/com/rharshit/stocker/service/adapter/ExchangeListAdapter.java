@@ -1,6 +1,7 @@
 package com.rharshit.stocker.service.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import com.rharshit.stocker.base.widgets.BaseViewHolder;
 import com.rharshit.stocker.data.ExchangeData;
 
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 public class ExchangeListAdapter extends BaseAdapter<ExchangeListAdapter.ExchangeViewHolder, ExchangeData> {
 
@@ -34,11 +37,32 @@ public class ExchangeListAdapter extends BaseAdapter<ExchangeListAdapter.Exchang
     @Override
     public void onBindViewHolder(@NonNull ExchangeViewHolder holder, int position) {
         ExchangeData data = getData(position);
-        ((TextView) holder.itemView.findViewById(R.id.tv_exchange_acronym)).setText(data.getAcronym());
+
+        try {
+            ((TextView) holder.itemView.findViewById(R.id.tv_exchange_acronym)).setText(getDisplayAcronym(data));
+            ((TextView) holder.itemView.findViewById(R.id.tv_exchange_name)).setText(data.getName());
+            ((TextView) holder.itemView.findViewById(R.id.tv_exchange_website)).setText(data.getWebsite());
+            ((TextView) holder.itemView.findViewById(R.id.tv_exchange_currency)).setText(data.getCurrency().toString());
+            ((TextView) holder.itemView.findViewById(R.id.tv_exchange_timezone)).setText(data.getTimezone().getTimezone());
+        } catch (Exception e) {
+            Log.e(TAG, "onBindViewHolder: ", e);
+        }
+
+
         holder.itemView.setOnClickListener(v -> {
             ((StockerApplication) getContext().getApplicationContext()).setExchangeData(data);
             ((BaseAppCompatLoggedinActivity) getContext()).finish();
         });
+    }
+
+    private String getDisplayAcronym(ExchangeData data) {
+        if (data.getMic() == null || data.getMic().trim().isEmpty()) {
+            return data.getAcronym();
+        }
+        if (data.getAcronym() == null || data.getAcronym().trim().isEmpty()) {
+            return data.getMic();
+        }
+        return data.getMic() + "/" + data.getAcronym();
     }
 
     public class ExchangeViewHolder extends BaseViewHolder {

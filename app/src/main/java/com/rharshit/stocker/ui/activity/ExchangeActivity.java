@@ -2,6 +2,7 @@ package com.rharshit.stocker.ui.activity;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ import static com.rharshit.stocker.constant.APIConstants.BASE_URL_MARKETSTACK;
 
 public class ExchangeActivity extends BaseAppCompatLoggedinActivity {
 
+    private static final String TAG = "ExchangeActivity.java";
     @BindView(R.id.et_exchange_search)
     TextView tvExchangeSearch;
 
@@ -64,7 +66,7 @@ public class ExchangeActivity extends BaseAppCompatLoggedinActivity {
                 } else {
                     filteredList = new ArrayList<>();
                     for (ExchangeData data : exchangeDataList) {
-                        if (data.getName().toLowerCase().contains(searchText.toLowerCase())) {
+                        if (isExchangeMatch(data, searchText)) {
                             filteredList.add(data);
                         }
                     }
@@ -78,6 +80,40 @@ public class ExchangeActivity extends BaseAppCompatLoggedinActivity {
 
             }
         });
+
+    }
+
+    private boolean isExchangeMatch(ExchangeData data, String searchText) {
+        try {
+            if (searchText.equalsIgnoreCase(data.getAcronym())) {
+                return true;
+            }
+            if (searchText.equalsIgnoreCase(data.getCity())) {
+                return true;
+            }
+            if (searchText.equalsIgnoreCase(data.getCountry())) {
+                return true;
+            }
+            if (searchText.equalsIgnoreCase(data.getCountryCode())) {
+                return true;
+            }
+            if (searchText.equalsIgnoreCase(data.getMic())) {
+                return true;
+            }
+            if (searchText.equalsIgnoreCase(data.getName())) {
+                return true;
+            }
+            if (searchText.equalsIgnoreCase(data.getCurrency().toString())) {
+                return true;
+            }
+            if (searchText.equalsIgnoreCase(data.getTimezone().getTimezone())) {
+                return true;
+            }
+            return searchText.equalsIgnoreCase(data.getWebsite());
+        } catch (Exception e) {
+            Log.e(TAG, "isExchangeMatch: ", e);
+            return false;
+        }
 
     }
 
