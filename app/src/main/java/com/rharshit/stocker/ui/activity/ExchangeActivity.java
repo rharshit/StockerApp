@@ -128,13 +128,19 @@ public class ExchangeActivity extends BaseAppCompatLoggedinActivity {
 
     private void getAllExcahnges() {
         BaseAsyncTask<Void, Void, BaseMarketstackData<ExchangeData>> exchangeTask =
-                marketStackService.getExchanges(this::setMarketstackExcahnges);
+                marketStackService.getExchanges(this::setMarketstackExchanges);
         exchangeTask.execute();
     }
 
-    private void setMarketstackExcahnges(BaseMarketstackData<ExchangeData> data) {
+    private void setMarketstackExchanges(BaseMarketstackData<ExchangeData> data) {
         if (data.isSuccess()) {
-            exchangeDataList = data.getData();
+            List<ExchangeData> dataList = data.getData();
+            for (ExchangeData exchangeData : dataList) {
+                if (exchangeData.getAcronym() == null) {
+                    dataList.remove(exchangeData);
+                }
+            }
+            exchangeDataList = dataList;
             tvExchangeSearch.setText("");
         } else {
             makeToast("Error while fetching Exchange list", Toast.LENGTH_LONG);

@@ -1,5 +1,6 @@
 package com.rharshit.stocker.data;
 
+import com.blongho.country_data.World;
 import com.google.gson.annotations.SerializedName;
 import com.rharshit.stocker.base.data.BaseData;
 
@@ -91,6 +92,30 @@ public class ExchangeData extends BaseData {
 
     public void setCurrency(Currency currency) {
         this.currency = currency;
+    }
+
+    public String getDisplayAcronym() {
+        if (this.getMic() == null || this.getMic().trim().isEmpty()) {
+            return this.getAcronym();
+        }
+        if (this.getAcronym() == null || this.getAcronym().trim().isEmpty()) {
+            return this.getMic();
+        }
+        return this.getMic() + "/" + this.getAcronym();
+    }
+
+    public int getFlagResId() {
+        try {
+            int id;
+            id = World.getFlagOf(this.getCountry());
+            if (id == 2131165401) {
+                id = World.getFlagOf(this.getCountryCode());
+            }
+            return id;
+        } catch (Exception e) {
+            return 2131165401;
+        }
+
     }
 
     public static class Timezone {

@@ -4,11 +4,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.BindingAdapter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -103,4 +105,9 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
     int getLayoutResource();
 
     public abstract void init();
+
+    @BindingAdapter("android:drawable")
+    public static void setImageUrl(ImageView view, int resId) {
+        view.setImageResource(resId);
+    }
 }
