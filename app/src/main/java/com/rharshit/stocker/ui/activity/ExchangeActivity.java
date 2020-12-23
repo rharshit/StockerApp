@@ -128,7 +128,7 @@ public class ExchangeActivity extends BaseAppCompatLoggedinActivity {
 
     private void getAllExcahnges() {
         BaseAsyncTask<Void, Void, BaseMarketstackData<ExchangeData>> exchangeTask =
-                marketStackService.getExcahnges(this::setMarketstackExcahnges);
+                marketStackService.getExchanges(this::setMarketstackExcahnges);
         exchangeTask.execute();
     }
 
