@@ -73,6 +73,7 @@ public abstract class BaseService<V extends BaseViewModel, C extends BaseClient>
             onlineInterceptor = chain -> {
                 okhttp3.Response response = chain.proceed(chain.request());
                 int maxAge = 60 * 60 * 24;
+                Log.d(TAG, getServiceClass() + ": Added to cache:\n" + response.request().url());
                 return response.newBuilder()
                         .header("Cache-Control", "public, max-age=" + maxAge)
                         .removeHeader("Pragma")
@@ -90,6 +91,7 @@ public abstract class BaseService<V extends BaseViewModel, C extends BaseClient>
                             .removeHeader("Pragma")
                             .build();
                 }
+                Log.d(TAG, getServiceClass() + ": Loading from cache:\n" + request.url());
                 return chain.proceed(request);
             };
         }
