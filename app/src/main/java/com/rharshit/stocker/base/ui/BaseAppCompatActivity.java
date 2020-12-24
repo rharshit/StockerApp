@@ -48,7 +48,7 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
     }
 
     public void makeToast(String message, int duration) {
-        Toast.makeText(getContext(), message, duration).show();
+        this.runOnUiThread(() -> Toast.makeText(getContext(), message, duration).show());
     }
 
     private void processProgressDialogText() {
