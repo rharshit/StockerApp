@@ -80,15 +80,16 @@ public class MainActivity extends BaseAppCompatLoggedinActivity {
     private void initExchange() {
         ExchangeData exchangeData = ((StockerApplication) getApplication()).getExchangeData();
         if (exchangeData == null) {
-            selectExcahnge();
+            selectExchange();
         } else {
             exchangeName.setText(exchangeData.getName());
             exchangeCurrency.setText(exchangeData.getCurrency().toString());
-            exchangeMainDisplay.setOnClickListener(v -> selectExcahnge());
+            exchangeMainDisplay.setOnClickListener(v -> selectExchange());
         }
+
     }
 
-    private void selectExcahnge() {
+    private void selectExchange() {
         startActivity(new Intent(getContext(), ExchangeActivity.class));
     }
 
