@@ -36,4 +36,36 @@ public class BaseMarketstackData<T> extends BaseData {
     public void setError(MarketstackErrorData error) {
         this.error = error;
     }
+
+    public int getLimit() {
+        PaginationData paginationData = getPagination();
+        if (paginationData == null) {
+            return 0;
+        }
+        return paginationData.getLimit();
+    }
+
+    public int getCount() {
+        PaginationData paginationData = getPagination();
+        if (paginationData == null) {
+            return 0;
+        }
+        return paginationData.getCount();
+    }
+
+    public int getTotal() {
+        PaginationData paginationData = getPagination();
+        if (paginationData == null) {
+            return 0;
+        }
+        return paginationData.getTotal();
+    }
+
+    public int getOffset() {
+        PaginationData paginationData = getPagination();
+        if (paginationData == null) {
+            return 0;
+        }
+        return paginationData.getOffset();
+    }
 }

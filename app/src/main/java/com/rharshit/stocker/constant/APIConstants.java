@@ -13,6 +13,8 @@ public abstract class APIConstants {
      */
     public static final String ACCESS_KEY = "access_key";
     public static final String LIMIT = "limit";
+    public static final String OFFSET = "offset";
+    public static final String EXCHANGE = "exchange";
 
     /**
      * Base URLs
@@ -27,6 +29,7 @@ public abstract class APIConstants {
     public static final String GET_CHUCK_NORRIS_JOKES = "/jokes/random";
 
     public static final String GET_MARKETSTACK_EXCHANGES = "/v1/exchanges";
+    public static final String GET_MARKETSTACK_TICKERS = "/v1/tickers";
 
     /**
      * Keys

@@ -7,5 +7,7 @@ public abstract class Constants {
     }
 
     public static final int THRESHOLD_TRIES = 5;
+
+    public static final int MAX_MARKETSTACK_LIMIT = 1000;
 }
 
