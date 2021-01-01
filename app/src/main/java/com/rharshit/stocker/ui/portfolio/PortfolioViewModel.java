@@ -19,6 +19,11 @@ public class PortfolioViewModel extends BaseViewModel {
 
     }
 
+    @Override
+    public void init() {
+
+    }
+
     public LiveData<String> getText() {
         return mText;
     }

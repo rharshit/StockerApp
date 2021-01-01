@@ -36,6 +36,8 @@ public abstract class BaseFragment<V extends BaseViewModel> extends Fragment {
         viewModel =
                 new ViewModelProvider(this).get(getViewModelClass());
         viewModel.setActivity((BaseAppCompatActivity) this.getActivity());
+        viewModel.init();
+        viewModel.initService();
         mainView = inflater.inflate(getLayoutResource(), container, false);
         return mainView;
     }

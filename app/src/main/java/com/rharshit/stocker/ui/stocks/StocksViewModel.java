@@ -4,7 +4,6 @@ package com.rharshit.stocker.ui.stocks;
 import android.widget.TextView;
 
 import androidx.lifecycle.MutableLiveData;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.rharshit.stocker.R;
@@ -37,16 +36,7 @@ public class StocksViewModel extends BaseViewModel {
     }
 
     public void initTickers() {
-        tickerListAdapter = new TickerListAdapter(getContext(), new ArrayList<>());
-        if (lvTickerList == null) {
-            //TODO: Fix BinderView
-            lvTickerList = getActivity().findViewById(R.id.rv_ticker_list);
-        }
-        lvTickerList.setLayoutManager(new LinearLayoutManager(getContext()));
-        lvTickerList.setAdapter(tickerListAdapter);
-
         getAllTickerData();
-
     }
 
     private void getAllTickerData() {
@@ -65,7 +55,11 @@ public class StocksViewModel extends BaseViewModel {
 
     @Override
     public void initService() {
+    }
 
+    @Override
+    public void init() {
+        tickerListAdapter = new TickerListAdapter(getContext(), new ArrayList<>());
     }
 
     private List<TickerData> getAllStockList() {
@@ -93,5 +87,13 @@ public class StocksViewModel extends BaseViewModel {
 
     public void setTickerDataListFirebase(MutableLiveData<List<TickerData>> tickerDataListFirebase) {
         this.tickerDataListFirebase = tickerDataListFirebase;
+    }
+
+    public TickerListAdapter getTickerListAdapter() {
+        return tickerListAdapter;
+    }
+
+    public void setTickerListAdapter(TickerListAdapter tickerListAdapter) {
+        this.tickerListAdapter = tickerListAdapter;
     }
 }

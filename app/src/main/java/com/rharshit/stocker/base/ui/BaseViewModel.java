@@ -9,7 +9,6 @@ public abstract class BaseViewModel extends ViewModel {
     private BaseAppCompatActivity activity;
 
     public BaseViewModel() {
-        initService();
     }
 
     public BaseAppCompatActivity getActivity() {
@@ -25,4 +24,6 @@ public abstract class BaseViewModel extends ViewModel {
     }
 
     public abstract void initService();
+
+    public abstract void init();
 }
