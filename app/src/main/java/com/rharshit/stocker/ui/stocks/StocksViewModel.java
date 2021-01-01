@@ -1,8 +1,6 @@
 package com.rharshit.stocker.ui.stocks;
 
 
-import android.widget.TextView;
-
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,9 +16,6 @@ import java.util.List;
 import butterknife.BindView;
 
 public class StocksViewModel extends BaseViewModel {
-
-    @BindView(R.id.et_ticker_search)
-    TextView tvTickerSearch;
 
     @BindView(R.id.rv_ticker_list)
     RecyclerView lvTickerList;
@@ -69,8 +64,41 @@ public class StocksViewModel extends BaseViewModel {
         return list;
     }
 
-    public void onChangeTickerList(List<TickerData> tickerData) {
+    public void onChangeTickerList() {
         tickerListAdapter.updateList(getAllStockList());
+    }
+
+    public void onChangeTickerSearch(CharSequence s) {
+        tickerListAdapter.updateList(getAllStockList(s.toString().trim().toLowerCase()));
+    }
+
+    private List<TickerData> getAllStockList(String searchText) {
+        List<TickerData> filteredList = new ArrayList<>();
+        if (searchText.trim().isEmpty()) {
+            return getAllStockList();
+        } else {
+            for (TickerData data : tickerDataListMarketstack.getValue()) {
+                if (isTickerMatch(data, searchText)) {
+                    filteredList.add(data);
+                }
+            }
+            for (TickerData data : tickerDataListFirebase.getValue()) {
+                if (isTickerMatch(data, searchText)) {
+                    filteredList.add(data);
+                }
+            }
+        }
+        return filteredList;
+    }
+
+    private boolean isTickerMatch(TickerData data, String searchText) {
+        if (data == null) {
+            return false;
+        }
+        if (data.getName().trim().toLowerCase().contains(searchText)) {
+            return true;
+        }
+        return data.getSymbol().trim().toLowerCase().contains(searchText);
     }
 
     public MutableLiveData<List<TickerData>> getTickerDataListMarketstack() {

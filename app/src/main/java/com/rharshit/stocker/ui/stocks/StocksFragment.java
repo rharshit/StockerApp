@@ -1,6 +1,9 @@
 package com.rharshit.stocker.ui.stocks;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +20,9 @@ public class StocksFragment extends BaseFragment<StocksViewModel> implements Inc
     @BindView(R.id.rv_ticker_list)
     RecyclerView lvTickerList;
 
+    @BindView(R.id.et_ticker_search)
+    TextView tvTickerSearch;
+
     @Override
     public int getLayoutResource() {
         return R.layout.fragment_stocks;
@@ -32,11 +38,28 @@ public class StocksFragment extends BaseFragment<StocksViewModel> implements Inc
         lvTickerList.setLayoutManager(new LinearLayoutManager(getContext()));
         lvTickerList.setAdapter(getViewModel().getTickerListAdapter());
 
+        tvTickerSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                getViewModel().onChangeTickerSearch(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         getViewModel().getTickerDataListFirebase().observe(getViewLifecycleOwner(),
-                tickerData -> getViewModel().onChangeTickerList(tickerData));
+                tickerData -> getViewModel().onChangeTickerList());
 
         getViewModel().getTickerDataListMarketstack().observe(getViewLifecycleOwner(),
-                tickerData -> getViewModel().onChangeTickerList(tickerData));
+                tickerData -> getViewModel().onChangeTickerList());
 
         getViewModel().initTickers();
     }
