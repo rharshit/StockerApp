@@ -31,8 +31,8 @@ public class ExchangeActivity extends BaseAppCompatLoggedinActivity {
     @BindView(R.id.et_exchange_search)
     TextView tvExchangeSearch;
 
-    @BindView(R.id.lv_exchange_list)
-    RecyclerView lvExchangeList;
+    @BindView(R.id.rv_exchange_list)
+    RecyclerView rvExchangeList;
 
     private List<ExchangeData> exchangeDataList;
 
@@ -120,8 +120,8 @@ public class ExchangeActivity extends BaseAppCompatLoggedinActivity {
     private void initExchanges() {
         exchangeDataList = new ArrayList<>();
         exchangeListAdapter = new ExchangeListAdapter(getContext(), this.exchangeDataList);
-        lvExchangeList.setLayoutManager(new LinearLayoutManager(getContext()));
-        lvExchangeList.setAdapter(exchangeListAdapter);
+        rvExchangeList.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvExchangeList.setAdapter(exchangeListAdapter);
         marketStackService = new MarketStackService(this, BASE_URL_MARKETSTACK);
         getAllExcahnges();
     }

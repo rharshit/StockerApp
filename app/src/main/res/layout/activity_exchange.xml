@@ -14,7 +14,7 @@
         android:hint="@string/search_for_exchange" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/lv_exchange_list"
+        android:id="@+id/rv_exchange_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
