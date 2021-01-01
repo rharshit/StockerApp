@@ -10,4 +10,5 @@
     <string name="menu_dashboard">Dashboard</string>
     <string name="menu_stocks">Stocks</string>
     <string name="menu_portfolio">Portfolio</string>
+    <string name="search_for_exchange">Search for exchange</string>
 </resources>

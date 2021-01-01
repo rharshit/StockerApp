@@ -1,11 +1,13 @@
 package com.rharshit.stocker.ui.activity;
 
+import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -15,9 +17,11 @@ import androidx.navigation.ui.NavigationUI;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.rharshit.stocker.R;
+import com.rharshit.stocker.StockerApplication;
 import com.rharshit.stocker.base.ui.BaseAppCompatLoggedinActivity;
 import com.rharshit.stocker.base.ui.BaseNavigationView;
 import com.rharshit.stocker.base.widgets.BaseToolbar;
+import com.rharshit.stocker.data.ExchangeData;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,6 +30,16 @@ public class MainActivity extends BaseAppCompatLoggedinActivity {
 
     @BindView(R.id.nav_view)
     BaseNavigationView navigationView;
+
+    @BindView(R.id.cl_exchange_main_display)
+    ConstraintLayout exchangeMainDisplay;
+
+    @BindView(R.id.tv_exchange_name_main)
+    TextView exchangeName;
+
+    @BindView(R.id.tv_exchange_currency_main)
+    TextView exchangeCurrency;
+
     private AppBarConfiguration mAppBarConfiguration;
 
     @Override
@@ -55,6 +69,27 @@ public class MainActivity extends BaseAppCompatLoggedinActivity {
     protected void onStart() {
         super.onStart();
         setUserDetails();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initExchange();
+    }
+
+    private void initExchange() {
+        ExchangeData exchangeData = ((StockerApplication) getApplication()).getExchangeData();
+        if (exchangeData == null) {
+            selectExcahnge();
+        } else {
+            exchangeName.setText(exchangeData.getName());
+            exchangeCurrency.setText(exchangeData.getCurrency().toString());
+            exchangeMainDisplay.setOnClickListener(v -> selectExcahnge());
+        }
+    }
+
+    private void selectExcahnge() {
+        startActivity(new Intent(getContext(), ExchangeActivity.class));
     }
 
     private void setUserDetails() {

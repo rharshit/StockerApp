@@ -4,6 +4,10 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
+def apikeyPropertiesFile = rootProject.file("apikey.properties")
+def apikeyProperties = new Properties()
+apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.0"
@@ -16,6 +20,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "MARKETSTACK_API_KEY", apikeyProperties['MARKETSTACK_API_KEY'])
     }
 
     buildTypes {
@@ -35,6 +41,7 @@ android {
 
 def butterKnifeVersion = '10.2.3'
 def retrofitVersion = '2.9.0'
+def WorldCountryDataVersion = '1.5'
 
 dependencies {
 
@@ -78,4 +85,7 @@ dependencies {
     // okhttp
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
     implementation 'com.squareup.okhttp3:okhttp:3.14.9'
+
+    // World Country Data
+    implementation "com.github.blongho:worldCountryData:$WorldCountryDataVersion"
 }
