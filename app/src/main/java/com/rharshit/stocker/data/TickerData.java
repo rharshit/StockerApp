@@ -14,6 +14,9 @@ public class TickerData extends BaseData {
     @SerializedName("stock_exchange")
     private StockExchange stockExchange;
 
+    private boolean isCustomData;
+    private double ltp;
+
     public TickerData(boolean success) {
         super(success);
     }
@@ -64,6 +67,26 @@ public class TickerData extends BaseData {
 
     public void setStockExchange(StockExchange stockExchange) {
         this.stockExchange = stockExchange;
+    }
+
+    public boolean isCustomData() {
+        return isCustomData;
+    }
+
+    public void setCustomData(boolean customData) {
+        isCustomData = customData;
+    }
+
+    public double getLtp() {
+        return ltp;
+    }
+
+    public void setLtp(double ltp) {
+        this.ltp = ltp;
+    }
+
+    public String getLtpString() {
+        return String.valueOf(ltp);
     }
 
     static class StockExchange {

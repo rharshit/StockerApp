@@ -5,6 +5,7 @@ import android.app.Application;
 import com.rharshit.stocker.data.ExchangeData;
 import com.rharshit.stocker.data.TickerData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StockerApplication extends Application {
@@ -20,7 +21,7 @@ public class StockerApplication extends Application {
     }
 
     public List<TickerData> getTickerDataList() {
-        return tickerDataList;
+        return tickerDataList == null ? new ArrayList<>() : tickerDataList;
     }
 
     public void setTickerDataList(List<TickerData> tickerDataList) {

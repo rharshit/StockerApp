@@ -28,7 +28,7 @@ public abstract class BaseFragment<V extends BaseViewModel> extends Fragment {
     @BindView(R.id.fab)
     BaseFloatingActionButton fab;
     private V viewModel;
-    private View view;
+    private View mainView;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -36,15 +36,15 @@ public abstract class BaseFragment<V extends BaseViewModel> extends Fragment {
         viewModel =
                 new ViewModelProvider(this).get(getViewModelClass());
         viewModel.setActivity((BaseAppCompatActivity) this.getActivity());
-        view = inflater.inflate(getLayoutResource(), container, false);
-        return view;
+        mainView = inflater.inflate(getLayoutResource(), container, false);
+        return mainView;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        bind(this.getView());
         init();
-        bind(getView());
         addObservables();
         addListeners();
     }
@@ -107,12 +107,6 @@ public abstract class BaseFragment<V extends BaseViewModel> extends Fragment {
 
     public V getViewModel() {
         return viewModel;
-    }
-
-    @Override
-    public @NonNull
-    View getView() {
-        return view;
     }
 
     public void addLoading(String s) {

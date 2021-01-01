@@ -1,7 +1,6 @@
 package com.rharshit.stocker.ui.stocks;
 
 import android.view.View;
-import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.rharshit.stocker.R;
@@ -22,8 +21,13 @@ public class StocksFragment extends BaseFragment<StocksViewModel> implements Inc
 
     @Override
     public void init() {
-        final TextView textView = getView().findViewById(R.id.text_stocks);
-        getViewModel().getText().observe(getViewLifecycleOwner(), textView::setText);
+        getViewModel().getTickerDataListFirebase().observe(getViewLifecycleOwner(),
+                tickerData -> getViewModel().onChangeTickerList(tickerData));
+
+        getViewModel().getTickerDataListMarketstack().observe(getViewLifecycleOwner(),
+                tickerData -> getViewModel().onChangeTickerList(tickerData));
+
+        getViewModel().initTickers();
     }
 
     @Override

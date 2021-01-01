@@ -148,6 +148,7 @@ public class MainActivity extends BaseAppCompatLoggedinActivity {
         }
 
         if (this.tickerDataList.size() == total) {
+            ((StockerApplication) getApplication()).setTickerDataList(this.tickerDataList);
             removeLoading(LOADING_TICKERS);
         }
     }

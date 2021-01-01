@@ -11,4 +11,5 @@
     <string name="menu_stocks">Stocks</string>
     <string name="menu_portfolio">Portfolio</string>
     <string name="search_for_exchange">Search for exchange</string>
+    <string name="search_for_stock">Search for stock</string>
 </resources>
