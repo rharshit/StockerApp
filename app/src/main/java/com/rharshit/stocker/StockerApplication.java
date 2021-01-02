@@ -27,4 +27,10 @@ public class StockerApplication extends Application {
     public void setTickerDataList(List<TickerData> tickerDataList) {
         this.tickerDataList = tickerDataList;
     }
+
+    public void removeTickerDataList() {
+        if (this.tickerDataList != null) {
+            this.tickerDataList.clear();
+        }
+    }
 }

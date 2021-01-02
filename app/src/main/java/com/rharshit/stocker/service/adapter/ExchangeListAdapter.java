@@ -50,6 +50,7 @@ public class ExchangeListAdapter extends BaseAdapter<ExchangeListAdapter.Exchang
 
         holder.getItemView().setOnClickListener(v -> {
             ((StockerApplication) getContext().getApplicationContext()).setExchangeData(data);
+            ((StockerApplication) getContext().getApplicationContext()).removeTickerDataList();
             ((BaseAppCompatLoggedinActivity) getContext()).finish();
         });
     }

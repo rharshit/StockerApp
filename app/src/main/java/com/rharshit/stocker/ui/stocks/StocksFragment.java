@@ -1,10 +1,12 @@
 package com.rharshit.stocker.ui.stocks;
 
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -60,7 +62,11 @@ public class StocksFragment extends BaseFragment<StocksViewModel> implements Inc
 
         getViewModel().getTickerDataListMarketstack().observe(getViewLifecycleOwner(),
                 tickerData -> getViewModel().onChangeTickerList());
+    }
 
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
         getViewModel().initTickers();
     }
 
